@@ -87,11 +87,13 @@ class Game {
         ];
 
         for (let i = 0; i < 6; i++) {
-            const player = new Player(`Player ${i + 1}`, 1000, positions[i]);
-            if (i === this.humanPlayerIndex) {
-                player.isAI = false;
-                player.name = 'You';
-            }
+            const isHuman = i === this.humanPlayerIndex;
+            const player = new Player(
+                isHuman ? 'You' : `Player ${i + 1}`,
+                1000,
+                positions[i],
+                isHuman
+            );
             this.players.push(player);
             this.playersContainer.appendChild(player.element);
         }
@@ -193,6 +195,16 @@ class Game {
         const activePlayers = this.players.filter(player => !player.folded);
         const hands = activePlayers.map(player => {
             const bestHand = HandEvaluator.evaluateHand([...player.cards, ...this.communityCards]);
+            
+            // Reveal AI cards at showdown
+            if (player.isAI) {
+                const cardsContainer = player.element.querySelector('.player-cards');
+                cardsContainer.innerHTML = '';
+                player.cards.forEach(card => {
+                    cardsContainer.appendChild(card.element);
+                });
+            }
+            
             return { player, hand: bestHand };
         });
 

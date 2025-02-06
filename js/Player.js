@@ -1,12 +1,12 @@
 class Player {
-    constructor(name, chips, position) {
+    constructor(name, chips, position, isHuman = false) {
         this.name = name;
         this.chips = chips;
         this.position = position;
         this.cards = [];
         this.bet = 0;
         this.folded = false;
-        this.isAI = true; // All players are AI by default
+        this.isAI = !isHuman;
         this.element = this.createPlayerElement();
     }
 
@@ -23,12 +23,15 @@ class Player {
         element.innerHTML = `
             <div class="player-cards"></div>
             <div class="player-info">
-                <div>${this.name}${this.isAI ? ' (AI)' : ''}</div>
+                <div>${this.name}</div>
                 <div>$${this.chips}</div>
                 ${this.bet ? `<div>Bet: $${this.bet}</div>` : ''}
                 <div class="thinking-indicator" style="display: none;">Thinking...</div>
             </div>
         `;
+        
+        // Add a class to identify human player
+        element.classList.toggle('human-player', !this.isAI);
         return element;
     }
 
@@ -36,8 +39,20 @@ class Player {
         this.cards.push(card);
         const cardsContainer = this.element.querySelector('.player-cards');
         card.element.classList.add('dealing');
-        cardsContainer.appendChild(card.element);
-        setTimeout(() => card.element.classList.remove('dealing'), 500);
+        
+        // For AI players, hide the card content
+        if (this.isAI) {
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card card-back dealing';
+            cardsContainer.appendChild(cardBack);
+        } else {
+            cardsContainer.appendChild(card.element);
+        }
+        
+        setTimeout(() => {
+            const cards = cardsContainer.querySelectorAll('.card');
+            cards.forEach(c => c.classList.remove('dealing'));
+        }, 500);
     }
 
     placeBet(amount) {

@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const game = new Game();
+    
+    // Add New Game button functionality
+    const controls = document.querySelector('.controls');
+    const newGameBtn = document.createElement('button');
+    newGameBtn.textContent = 'New Game';
+    newGameBtn.className = 'action-btn';
+    newGameBtn.style.marginRight = 'auto';
+    
+    // Insert the New Game button at the beginning of controls
+    controls.insertBefore(newGameBtn, controls.firstChild);
+    
+    // Start the initial game
     game.startGame();
 
     // Add touch event handling
@@ -17,13 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     raiseSlider.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
     raiseSlider.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
-    // Add New Game button functionality
-    const newGameBtn = document.createElement('button');
-    newGameBtn.textContent = 'New Game';
-    newGameBtn.className = 'action-btn';
-    newGameBtn.style.marginRight = 'auto';
-    document.querySelector('.controls').prepend(newGameBtn);
-    
+    // Add New Game button click handler
     newGameBtn.addEventListener('click', () => {
         game.startGame();
     });
