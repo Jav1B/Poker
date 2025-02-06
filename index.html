@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas Hold'em Poker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="poker-table">
+            <div class="community-cards"></div>
+            <div class="pot">Pot: $0</div>
+            <div class="players-container">
+                <!-- Players will be added here dynamically -->
+            </div>
+        </div>
+        <div class="controls">
+            <button id="fold-btn" class="action-btn">Fold</button>
+            <button id="call-btn" class="action-btn">Call</button>
+            <button id="raise-btn" class="action-btn">Raise</button>
+            <div class="raise-controls">
+                <input type="range" id="raise-slider" min="1" max="100" value="1">
+                <span id="raise-amount">$1</span>
+            </div>
+        </div>
+    </div>
+    <script src="js/Card.js"></script>
+    <script src="js/Deck.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/HandEvaluator.js"></script>
+    <script src="js/PokerAI.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

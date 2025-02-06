@@ -1,0 +1,320 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.poker-table {
+    background-color: #27ae60;
+    border-radius: 200px;
+    padding: 40px;
+    position: relative;
+    aspect-ratio: 2/1;
+    border: 20px solid #145b32;
+}
+
+.community-cards {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pot {
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.players-container {
+    position: relative;
+    height: 100%;
+}
+
+.player {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.player.active {
+    box-shadow: 0 0 10px gold;
+    animation: playerTurn 1s ease-in-out infinite;
+}
+
+.player-info {
+    margin-top: 5px;
+}
+
+.thinking-indicator {
+    color: #3498db;
+    font-style: italic;
+    animation: pulsate 1.5s infinite;
+    margin-top: 5px;
+}
+
+@keyframes pulsate {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+.card {
+    width: 70px;
+    height: 100px;
+    background-color: white;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    transition: transform 0.3s ease-out;
+    transform-origin: center center;
+}
+
+.card.dealing {
+    animation: dealCard 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+@keyframes dealCard {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sound-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+#sound-toggle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+#volume-slider {
+    width: 100px;
+    accent-color: #3498db;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.action-btn:hover {
+    background-color: #2980b9;
+}
+
+.action-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.raise-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#raise-slider {
+    width: 200px;
+}
+
+#raise-amount {
+    color: white;
+    font-size: 18px;
+    min-width: 60px;
+}
+
+.dealer-button {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: black;
+    border: 2px solid #3498db;
+}
+
+.winner-display {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: gold;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 24px;
+    z-index: 100;
+    animation: winnerShow 5s ease-out forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes winnerShow {
+    0% { 
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+    20% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    80% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Chip animations */
+.chip {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e6b800, #ffcc00);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease-out;
+}
+
+.chip.betting {
+    animation: betChip 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+@keyframes betChip {
+    0% {
+        transform: scale(0.5);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* AI Decision bubble */
+.decision-bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.decision-bubble.show {
+    animation: showBubble 2s ease-out forwards;
+}
+
+.decision-bubble:before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.9) transparent transparent;
+}
+
+@keyframes showBubble {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes playerTurn {
+    0%, 100% { box-shadow: 0 0 15px gold; }
+    50% { box-shadow: 0 0 25px gold; }
+}
